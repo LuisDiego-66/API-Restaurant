@@ -28,5 +28,7 @@ app.use(express.static("public"));
 app.use("/api", restaurantRoute);
 app.use("/api/auth", authRoute);
 
+const PORT = process.env.PORT || 3000;
+
 //Servidor
-app.listen(process.env.PORT || 3000);
+app.listen(PORT);
