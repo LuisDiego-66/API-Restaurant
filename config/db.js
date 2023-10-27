@@ -8,8 +8,8 @@ const db = new Sequelize(
   process.env.BD_PASS ?? "",
   {
     host: process.env.HOST,
-    port: 3306,
-    dialect: "mysql",
+    port: 5432,
+    dialect: "postgres",
     define: {
       timestamps: true,
     },
