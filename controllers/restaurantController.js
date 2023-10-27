@@ -10,6 +10,7 @@ import {
   Item_Opcion,
   Waiter,
 } from "../models/relations.js";
+import cloudinary from "../utills/cloudinary.js";
 
 export const saludo = async (req, res) => {
   res.send("hola mundo");
@@ -88,12 +89,31 @@ export const cambiarEstadoMesas = async (req, res) => {
 //Categorias
 export const createCategoria = async (req, res) => {
   const { nombre } = req.body;
-  const url = req.file.filename;
-  await Categoria.create({
-    nombre,
-    url,
-  });
-  res.send("ok");
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+    await cloudinary.uploader.upload(req.file.path, async (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: false,
+          message: "error",
+        });
+      }
+      const url = result.url;
+      await Categoria.create({
+        nombre,
+        url,
+      });
+      res.status(200).json({
+        success: true,
+        message: "Uploaded successfull",
+      });
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export const getCategorias = async (req, res) => {
@@ -170,24 +190,81 @@ export const createItem = async (req, res) => {
 };
 
 //Comidas
-export const createComida = async (req, res) => {
-  const { nombre, descripcion, precio, categoriaId, url, variantes } = req.body;
-  //const url = req.file.filename
 
-  const comida = await Comida.create({
-    nombre,
-    descripcion,
-    precio,
-    url,
-    categoriaId,
-  });
-  variantes.forEach(async (variante) => {
-    await Comida_Variante.create({
-      comidaId: comida.id,
-      varianteId: variante.id,
+export const createComidaNormal = async (req, res) => {
+  const { nombre, descripcion, precio, categoriaId } = req.body;
+
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+    await cloudinary.uploader.upload(req.file.path, async (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: false,
+          message: "error",
+        });
+      }
+      const url = result.url;
+
+      await Comida.create({
+        nombre,
+        descripcion,
+        precio,
+        categoriaId,
+        url,
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Uploaded successfull",
+      });
     });
-  });
-  res.send("ok");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const createComida = async (req, res) => {
+  const { nombre, descripcion, precio, categoriaId, variantes } = req.body;
+
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+    await cloudinary.uploader.upload(req.file.path, async (err, result) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({
+          success: false,
+          message: "error",
+        });
+      }
+      const url = result.url;
+
+      const comida = await Comida.create({
+        nombre,
+        descripcion,
+        precio,
+        url,
+        categoriaId,
+      });
+      variantes.forEach(async (variante) => {
+        await Comida_Variante.create({
+          comidaId: comida.id,
+          varianteId: variante.id,
+        });
+      });
+
+      res.status(200).json({
+        success: true,
+        message: "Uploaded successfull",
+      });
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export const getComidas = async (req, res) => {

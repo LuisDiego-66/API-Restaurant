@@ -9,7 +9,7 @@ const Categoria = db.define(
       allowNull: false,
     },
     url: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },

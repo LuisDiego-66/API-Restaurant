@@ -14,6 +14,7 @@ import {
   getVariantes,
   getItems,
   createItem,
+  createComidaNormal,
   createComida,
   getComidas,
   getComida,
@@ -65,7 +66,19 @@ router.get("/items/get", authentication, getItems);
 router.post("/items/create/:id", authentication, createItem); // agregar nuevo item a la orden
 
 //Comidas
-router.post("/comidas/create", authentication, createComida); // Comida Completa
+router.post(
+  "/comidas/create",
+  authentication,
+  upload.single("imagen"),
+  createComidaNormal
+); // Comida Normal
+
+router.post(
+  "/comidas/createAll",
+  authentication,
+  upload.single("imagen"),
+  createComida
+); // Comida Completa
 router.get("/comidas/get", authentication, getComidas); //ver todas las comidas con sus variantes y las opciones de las variantes
 router.get("/comidas/get/:id", authentication, getComida);
 
