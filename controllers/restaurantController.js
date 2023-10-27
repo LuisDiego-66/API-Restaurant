@@ -11,6 +11,10 @@ import {
   Waiter,
 } from "../models/relations.js";
 
+export const saludo = async (req, res) => {
+  res.send("hola mundo");
+};
+
 //Mesas
 export const createMesa = async (req, res) => {
   const { numero, capacidad, auxiliar, seccion, mesas } = req.body;

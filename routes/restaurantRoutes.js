@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  saludo,
   createMesa,
   getMesas,
   cambiarEstadoMesa,
@@ -30,6 +31,8 @@ import upload from "../middlewares/subirImagen.js";
 import authentication from "../middlewares/authentication.js";
 
 const router = express.Router();
+
+router.get("/", saludo);
 
 //Mesas
 router.post("/mesas/create", authentication, createMesa);

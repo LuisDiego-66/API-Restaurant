@@ -25,7 +25,7 @@ try {
 app.use(express.static("public"));
 
 //Routing
-app.use("/api", restaurantRoute);
+app.use("/api/", restaurantRoute);
 app.use("/api/auth", authRoute);
 
 const PORT = process.env.PORT;
