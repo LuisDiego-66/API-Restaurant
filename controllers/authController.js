@@ -6,6 +6,17 @@ export const register = async (req, res) => {
   const { nombre, password, correo, pin, celular, direccion } = req.body;
 
   try {
+    const waiterPin = await Waiter.findAll({
+      where: pin,
+    });
+    const waiterEmail = await Waiter.findAll({
+      where: correo,
+    });
+
+    if (waiterPin || waiterEmail) {
+      return res.status(500).json({ error: "pin or email already exists" });
+    }
+
     const passwordHash = await bcrypt.hash(password, 10);
     const newWaiter = new Waiter({
       nombre,
