@@ -353,6 +353,7 @@ export const createOrden = async (req, res) => {
 
   const waiter = req.waiter;
   const waiterId = waiter.id;
+
   try {
     const orden = await Orden.create({
       total,
