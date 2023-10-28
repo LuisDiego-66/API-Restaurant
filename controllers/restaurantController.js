@@ -290,13 +290,12 @@ export const getComida = async (req, res) => {
 
 //Ordenes
 export const createOrden = async (req, res) => {
-  const { estado, total, mesaId, items } = req.body;
+  const { total, mesaId, items } = req.body;
 
   const waiter = req.waiter;
   const waiterId = waiter.id;
 
   const orden = await Orden.create({
-    estado,
     total,
     mesaId,
     waiterId,
