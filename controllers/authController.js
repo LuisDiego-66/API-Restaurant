@@ -6,11 +6,11 @@ export const register = async (req, res) => {
   const { nombre, password, correo, pin, celular, direccion } = req.body;
 
   try {
-    const waiterPin = await Waiter.findAll({
-      where: pin,
+    const waiterPin = await Waiter.findOne({
+      where: { pin },
     });
-    const waiterEmail = await Waiter.findAll({
-      where: correo,
+    const waiterEmail = await Waiter.findOne({
+      where: { correo },
     });
 
     if (waiterPin || waiterEmail) {
