@@ -3,6 +3,7 @@ import {
   saludo,
   createMesa,
   getMesas,
+  getMesasWaiters,
   cambiarEstadoMesa,
   cambiarEstadoMesas,
   createCategoria,
@@ -38,6 +39,7 @@ router.get("/", saludo);
 //Mesas
 router.post("/mesas/create", authentication, createMesa);
 router.get("/mesas/get", authentication, getMesas);
+router.get("/mesas-waiters/get", authentication, getMesasWaiters);
 router.post("/change-table-status/:id", authentication, cambiarEstadoMesa); //post que cambia el estado de una mesa de libre a ocupado o viceversa
 
 router.post("/change-table-status", authentication, cambiarEstadoMesas); //post que cambia el estado varias mesas

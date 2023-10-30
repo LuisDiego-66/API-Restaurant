@@ -57,6 +57,17 @@ export const getMesas = async (req, res) => {
   }
 };
 
+export const getMesasWaiters = async (req, res) => {
+  try {
+    const mesas = await Mesa.findAll({
+      include: { model: Orden, include: { model: Waiter } },
+    });
+    res.json(mesas);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const cambiarEstadoMesa = async (req, res) => {
   const { id } = req.params;
   const { estado } = req.body;
