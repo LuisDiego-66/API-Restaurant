@@ -60,7 +60,7 @@ export const getMesas = async (req, res) => {
 export const getMesasWaiters = async (req, res) => {
   try {
     const mesas = await Mesa.findAll({
-      include: { model: Orden },
+      include: Orden,
     });
     res.json(mesas);
   } catch (error) {
