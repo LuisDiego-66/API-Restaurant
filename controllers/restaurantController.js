@@ -59,12 +59,26 @@ export const getMesas = async (req, res) => {
 
 export const getMesasWaiters = async (req, res) => {
   try {
-    const mesas = await Mesa.findAll({
-      include: {
-        model: Orden,
-      },
+    const mesas = await Mesa.findAll({});
+
+    const promises = mesas.map(async (mesa) => {
+      const orden = await Orden.findOne({
+        where: {
+          mesaId: mesa.id,
+          estado: "Pendiente",
+        },
+        include: { model: Waiter },
+      });
+
+      if (orden) {
+        mesa.dataValues.orden = orden;
+      }
+      return mesa;
     });
-    res.json(mesas);
+
+    const mesasConOrdenes = await Promise.all(promises);
+
+    res.json(mesasConOrdenes);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -399,6 +413,7 @@ export const getOrdenes = async (req, res) => {
     const ordenes = await Orden.findAll({
       include: [
         { model: Mesa },
+        { model: Waiter, attributes: ["id", "nombre"] },
         { model: Item, include: [{ model: Comida }, { model: Opcion }] },
       ],
     });

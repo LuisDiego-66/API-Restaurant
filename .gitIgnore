@@ -3,3 +3,4 @@ sql/
 
 *.text
 .env
+*.sql
