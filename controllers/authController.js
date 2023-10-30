@@ -1,5 +1,6 @@
 import { Waiter } from "../models/relations.js";
 import { generarJWT } from "../helpers/tokens.js";
+import cloudinary from "../utills/cloudinary.js";
 import bcrypt from "bcryptjs";
 
 export const register = async (req, res) => {
