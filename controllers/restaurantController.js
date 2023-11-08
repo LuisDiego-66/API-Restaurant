@@ -557,6 +557,7 @@ export const orderFromWaiter = async (req, res) => {
   try {
     const orden = await Orden.findAll({
       //attributes: ['mesaId'],
+      order: [["estado", "DESC"]],
       where: {
         waiterId: id,
       },
