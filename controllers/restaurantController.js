@@ -384,6 +384,10 @@ export const createOrden = async (req, res) => {
   const waiterId = waiter.id;
 
   try {
+    const mesa = await Mesa.findByPk(mesaId);
+    mesa.set({ estado: "Ocupado" });
+    await mesa.save();
+
     const orden = await Orden.create({
       total,
       mesaId,
