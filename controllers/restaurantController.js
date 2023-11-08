@@ -550,3 +550,23 @@ export const tableFromWaiter = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const orderFromWaiter = async (req, res) => {
+  const waiter = req.waiter;
+  const id = waiter.id;
+  try {
+    const orden = await Orden.findAll({
+      //attributes: ['mesaId'],
+      where: {
+        waiterId: id,
+      },
+      include: [
+        { model: Mesa },
+        { model: Item, include: [{ model: Comida }, { model: Opcion }] },
+      ],
+    });
+    res.json(orden);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

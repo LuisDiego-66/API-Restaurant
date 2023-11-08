@@ -28,6 +28,7 @@ import {
   getAllWaiter,
   getWaiter,
   tableFromWaiter,
+  orderFromWaiter,
 } from "../controllers/restaurantController.js";
 import upload from "../middlewares/subirImagen.js";
 import authentication from "../middlewares/authentication.js";
@@ -95,6 +96,7 @@ router.post("/change-order-waiter/:id", authentication, cambiarWaiterOrden); //C
 //Meseros
 router.get("/waiters/get", authentication, getWaiter); // del empleado con la sesion abierta
 router.get("/table-from-waiter/get", authentication, tableFromWaiter);
+router.get("/orders-from-waiter/get", authentication, orderFromWaiter);
 
 //lista de meseros SuperAdmin
 router.get("/waiters/getAll", authentication, getAllWaiter); // superAdmin
