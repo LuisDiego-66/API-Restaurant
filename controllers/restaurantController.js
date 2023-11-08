@@ -59,7 +59,9 @@ export const getMesas = async (req, res) => {
 
 export const getMesasWaiters = async (req, res) => {
   try {
-    const mesas = await Mesa.findAll({});
+    const mesas = await Mesa.findAll({
+      order: [["numero", "ASC"]],
+    });
 
     const promises = mesas.map(async (mesa) => {
       const orden = await Orden.findOne({
