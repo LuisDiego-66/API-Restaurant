@@ -413,7 +413,7 @@ export const getOrdenes = async (req, res) => {
     const ordenes = await Orden.findAll({
       include: [
         { model: Mesa },
-        { model: Waiter, attributes: ["id", "nombre"] },
+        { model: Waiter, attributes: ["id", "nombre", "pin", "url"] },
         { model: Item, include: [{ model: Comida }, { model: Opcion }] },
       ],
     });
@@ -430,6 +430,7 @@ export const getOrden = async (req, res) => {
     const ordenes = await Orden.findByPk(id, {
       include: [
         { model: Mesa },
+        { model: Waiter, attributes: ["id", "nombre", "pin", "url"] },
         { model: Item, include: [{ model: Comida }, { model: Opcion }] },
       ],
     });
@@ -445,6 +446,11 @@ export const cambiarEstadoOrden = async (req, res) => {
 
   try {
     const orden = await Orden.findByPk(id);
+    const mesaId = orden.mesaId;
+
+    const mesa = await Orden.findByPk(mesaId);
+    mesa.set({ estado: "Libre" });
+    await mesa.save();
 
     if (estado == "1") {
       orden.set({ estado: "Entregado" });
@@ -465,6 +471,13 @@ export const cambiarMesaOrden = async (req, res) => {
   const { mesaId } = req.body;
   try {
     const orden = await Orden.findByPk(id);
+
+    const mesaId = orden.mesaId;
+
+    const mesa = await Orden.findByPk(mesaId);
+    mesa.set({ estado: "Libre" });
+    await mesa.save();
+
     orden.set({ mesaId: mesaId });
     await orden.save();
     res.send("ok");
