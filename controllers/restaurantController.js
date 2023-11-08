@@ -448,7 +448,7 @@ export const cambiarEstadoOrden = async (req, res) => {
     const orden = await Orden.findByPk(id);
     const mesaId = orden.mesaId;
 
-    const mesa = await Orden.findByPk(mesaId);
+    const mesa = await Mesa.findByPk(mesaId);
     mesa.set({ estado: "Libre" });
     await mesa.save();
 
@@ -472,11 +472,15 @@ export const cambiarMesaOrden = async (req, res) => {
   try {
     const orden = await Orden.findByPk(id);
 
-    const mesaId = orden.mesaId;
+    const IdTable = orden.mesaId;
 
-    const mesa = await Orden.findByPk(mesaId);
+    const mesa = await Mesa.findByPk(IdTable);
     mesa.set({ estado: "Libre" });
     await mesa.save();
+
+    const newMesa = await Mesa.findByPk(mesaId);
+    newMesa.set({ estado: "Ocupado" });
+    await newMesa.save();
 
     orden.set({ mesaId: mesaId });
     await orden.save();
