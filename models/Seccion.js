@@ -1,16 +1,16 @@
 import { DataTypes } from "sequelize";
-import db from "../config/db.js"; //instancia de la base de datos
+import db from "../config/db.js";
 
-const Categoria = db.define(
-  "categorias",
+const Seccion = db.define(
+  "secciones",
   {
     nombre: {
-      type: DataTypes.STRING(30),
-      allowNull: false,
-    },
-    url: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    descripcion: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
     estado: {
       type: DataTypes.ENUM,
@@ -20,4 +20,4 @@ const Categoria = db.define(
   },
   { timestamps: false }
 );
-export default Categoria;
+export default Seccion;

@@ -12,14 +12,9 @@ const Mesa = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    seccion: {
-      type: DataTypes.ENUM,
-      values: ["Bar", "Terrace", "Hall"],
-      allowNull: false,
-    },
     estado: {
       type: DataTypes.ENUM,
-      values: ["Libre", "Ocupado", "Deshabilitado", "Reservado"],
+      values: ["Libre", "Ocupado", "Deshabilitado", "Reservado", "Bloqueado"],
       defaultValue: "Libre",
     },
     mesas: {
@@ -28,6 +23,10 @@ const Mesa = db.define(
     auxiliar: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
+    },
+    timer: {
+      type: DataTypes.STRING(10),
+      allowNull: true,
     },
   },
   { timestamps: false }

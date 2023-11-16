@@ -9,6 +9,7 @@ import {
   Item,
   Item_Opcion,
   Waiter,
+  Seccion,
 } from "../models/relations.js";
 import cloudinary from "../utills/cloudinary.js";
 
@@ -18,7 +19,7 @@ export const saludo = async (req, res) => {
 
 //Mesas
 export const createMesa = async (req, res) => {
-  const { numero, capacidad, auxiliar, seccion, mesas } = req.body;
+  const { numero, capacidad, auxiliar, seccionId, mesas } = req.body;
   let estado = "Libre";
 
   try {
@@ -28,7 +29,7 @@ export const createMesa = async (req, res) => {
         numero,
         capacidad,
         auxiliar,
-        seccion,
+        seccionId,
         estado,
         mesas,
       });
@@ -38,7 +39,7 @@ export const createMesa = async (req, res) => {
         numero,
         capacidad,
         auxiliar,
-        seccion,
+        seccionId,
         estado,
       });
       res.json(mesa);

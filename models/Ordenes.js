@@ -13,6 +13,14 @@ const Orden = db.define(
       type: DataTypes.DOUBLE,
       allowNull: false,
     },
+    people: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    descuento: {
+      type: DataTypes.DOUBLE,
+      allowNull: true,
+    },
   },
   { timestamps: true }
 );

@@ -15,9 +15,26 @@ const Comida = db.define(
       type: DataTypes.DOUBLE,
       allowNull: false,
     },
+    s1_price: {
+      type: DataTypes.DOUBLE,
+      allowNull: true,
+    },
+    s2_price: {
+      type: DataTypes.DOUBLE,
+      allowNull: true,
+    },
+    s3_price: {
+      type: DataTypes.DOUBLE,
+      allowNull: true,
+    },
     url: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    estado: {
+      type: DataTypes.ENUM,
+      values: ["Habilitado", "Deshabilitado"],
+      defaultValue: "Habilitado",
     },
   },
   { timestamps: false }
