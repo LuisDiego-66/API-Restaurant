@@ -20,7 +20,7 @@ const authentication = async (req, res, next) => {
     }
     return next();
   } catch (error) {
-    return res.send("JWT invalid");
+    return res.send(error);
   }
 };
 

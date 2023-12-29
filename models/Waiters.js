@@ -35,6 +35,11 @@ const Waiter = db.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    rol: {
+      type: DataTypes.ENUM,
+      values: ["1", "2", "3", "4"],
+      defaultValue: "4",
+    },
   },
   { timestamps: false }
 );

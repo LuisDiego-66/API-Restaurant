@@ -21,6 +21,10 @@ const Orden = db.define(
       type: DataTypes.DOUBLE,
       allowNull: true,
     },
+    timer: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   },
   { timestamps: true }
 );

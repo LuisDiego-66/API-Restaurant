@@ -8,7 +8,7 @@ import Variante from "./Variantes.js";
 import comida_variante from "./Comida_Variante.js";
 import Item_Opcion from "./Item_Opcion.js";
 import Waiter from "./Waiters.js";
-import Seccion from "./Seccion.js";
+import Seccion from "./Secciones.js";
 
 Comida.belongsTo(Categoria, { foreignKey: "categoriaId" }); //Tiene un o una //la llave pasa de B a A
 

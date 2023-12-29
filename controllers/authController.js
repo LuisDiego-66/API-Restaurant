@@ -4,8 +4,7 @@ import cloudinary from "../utills/cloudinary.js";
 import bcrypt from "bcryptjs";
 
 export const register = async (req, res) => {
-  const { nombre, password, correo, pin, celular, direccion } = req.body;
-
+  const { nombre, password, correo, pin, celular, direccion, rol } = req.body;
   try {
     const waiterPin = await Waiter.findOne({
       where: { pin },
@@ -30,7 +29,6 @@ export const register = async (req, res) => {
         });
       }
       const url = result.url;
-
       const passwordHash = await bcrypt.hash(password, 10);
       const newWaiter = new Waiter({
         nombre,
@@ -40,8 +38,8 @@ export const register = async (req, res) => {
         celular,
         direccion,
         url,
+        rol,
       });
-
       await newWaiter.save();
       res.status(200).json({
         success: true,
@@ -77,7 +75,6 @@ export const loginPin = async (req, res) => {
   if (!waiter) {
     return res.send("waiter does not exist");
   }
-
   //Autenticar
   const token = generarJWT({ id: waiter.id, nombre: waiter.nombre });
   res.json({ token });

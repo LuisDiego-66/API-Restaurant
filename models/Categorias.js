@@ -17,6 +17,14 @@ const Categoria = db.define(
       values: ["Habilitado", "Deshabilitado"],
       defaultValue: "Habilitado",
     },
+    horaInicio: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    horaFin: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   { timestamps: false }
 );

@@ -24,10 +24,6 @@ const Mesa = db.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
-    timer: {
-      type: DataTypes.STRING(10),
-      allowNull: true,
-    },
   },
   { timestamps: false }
 );
