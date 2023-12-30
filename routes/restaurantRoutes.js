@@ -103,13 +103,14 @@ router.post(
   upload.single("imagen"),
   createCategoria
 );
+router.get("/categorias/get/all", authentication, permissions(4), getComidas); //Lista todas las Comidas
+
 router.get("/categorias/get", authentication, permissions(4), getCategorias);
 
 router.get("/categorias/get/:id", authentication, permissions(2), getCategoria);
 
-router.get("/categorias/get/all", authentication, permissions(4), getComidas); //Lista todas las Comidas
 router.get(
-  "/categorias/get/:id", //lista comidas por categoria
+  "/categorias/get-comidas/:id", //lista comidas por categoria
   authentication,
   permissions(4),
   getComidaCategoria

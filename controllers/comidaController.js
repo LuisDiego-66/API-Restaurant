@@ -162,7 +162,7 @@ export const getComidas = async (req, res) => {
   try {
     const fechaActual = new Date();
     const horaActual = fechaActual.getHours() * 60 + fechaActual.getMinutes();
-
+    console.log("hola kasjdlakjsdlkjasldkjalskdjasd");
     const comidas = await Comida.findAll({
       where: {
         estado: "Habilitado",
