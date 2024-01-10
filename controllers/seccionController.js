@@ -36,7 +36,36 @@ export const getSecciones = async (req, res) => {
   try {
     const fechaActual = new Date();
     const horaActual = fechaActual.getHours() * 60 + fechaActual.getMinutes;
-    const seccion = await Seccion.findAll({
+
+    const secciones = await Seccion.findAll();
+
+    const newSecciones = await Promise.all(
+      secciones.map(async (s) => {
+        const seccion = await Seccion.findOne({
+          where: {
+            id: s.id,
+            estado: "Habilitado",
+            [Op.or]: [
+              {
+                [Op.and]: [
+                  { horaInicio: { [Op.lte]: horaActual } },
+                  { horaFin: { [Op.gte]: horaActual } },
+                ],
+              },
+              {
+                [Op.and]: [{ horaInicio: 0 }, { horaFin: 0 }],
+              },
+            ],
+          },
+        });
+
+        s.dataValues.enabled = !!seccion;
+
+        return s;
+      })
+    );
+
+    /*     const seccion = await Seccion.findAll({
       where: {
         estado: "Habilitado",
         [Op.or]: [
@@ -52,7 +81,9 @@ export const getSecciones = async (req, res) => {
         ],
       },
     });
-    res.json(seccion);
+ */
+
+    res.json(newSecciones);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -54,23 +54,34 @@ export const getCategorias = async (req, res) => {
     const fechaActual = new Date();
     const horaActual = fechaActual.getHours() * 60 + fechaActual.getMinutes();
 
-    const categorias = await Categoria.findAll({
-      where: {
-        estado: "Habilitado",
-        [Op.or]: [
-          {
-            [Op.and]: [
-              { horaInicio: { [Op.lte]: horaActual } },
-              { horaFin: { [Op.gte]: horaActual } },
+    const categorias = await Categoria.findAll();
+
+    const newCategorias = await Promise.all(
+      categorias.map(async (c) => {
+        const categoria = await Categoria.findOne({
+          where: {
+            id: c.id,
+            estado: "Habilitado",
+            [Op.or]: [
+              {
+                [Op.and]: [
+                  { horaInicio: { [Op.lte]: horaActual } },
+                  { horaFin: { [Op.gte]: horaActual } },
+                ],
+              },
+              {
+                [Op.and]: [{ horaInicio: 0 }, { horaFin: 0 }],
+              },
             ],
           },
-          {
-            [Op.and]: [{ horaInicio: 0 }, { horaFin: 0 }],
-          },
-        ],
-      },
-    });
-    res.json(categorias);
+        });
+
+        c.dataValues.enabled = !!categoria;
+
+        return c;
+      })
+    );
+    res.json(newCategorias);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

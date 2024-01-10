@@ -162,28 +162,41 @@ export const getComidas = async (req, res) => {
   try {
     const fechaActual = new Date();
     const horaActual = fechaActual.getHours() * 60 + fechaActual.getMinutes();
-    console.log("hola kasjdlakjsdlkjasldkjalskdjasd");
+
     const comidas = await Comida.findAll({
-      where: {
-        estado: "Habilitado",
-        [Op.or]: [
-          {
-            [Op.and]: [
-              { horaInicio: { [Op.lte]: horaActual } },
-              { horaFin: { [Op.gte]: horaActual } },
-            ],
-          },
-          {
-            [Op.and]: [{ horaInicio: 0 }, { horaFin: 0 }],
-          },
-        ],
-      },
       include: {
         model: Variante,
         include: { model: Opcion },
       },
     });
-    res.json(comidas);
+
+    const newComidas = await Promise.all(
+      comidas.map(async (c) => {
+        const comida = await Comida.findOne({
+          where: {
+            id: c.id,
+            estado: "Habilitado",
+            [Op.or]: [
+              {
+                [Op.and]: [
+                  { horaInicio: { [Op.lte]: horaActual } },
+                  { horaFin: { [Op.gte]: horaActual } },
+                ],
+              },
+              {
+                [Op.and]: [{ horaInicio: 0 }, { horaFin: 0 }],
+              },
+            ],
+          },
+        });
+
+        c.dataValues.enabled = !!comida;
+
+        return c;
+      })
+    );
+
+    res.json(newComidas);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -3,11 +3,11 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
 const db = new Sequelize(
-  "db_restaurant", //process.env.BD_NOMBRE,
-  "root", //process.env.BD_USER,
-  "", //process.env.BD_PASS ?? "",
+  process.env.BD_NOMBRE,
+  process.env.BD_USER,
+  process.env.BD_PASS ?? "",
   {
-    host: process.env.BD_HOST || "localhost",
+    host: process.env.BD_HOST,
     port: 3306, //port: 5432,
     dialect: "mysql", //dialect: "postgres",
     define: {

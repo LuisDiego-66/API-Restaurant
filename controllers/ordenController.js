@@ -82,7 +82,6 @@ export const getOrden = async (req, res) => {
 export const editOrden = async (req, res) => {
   const { id } = req.params;
   const { total, people, descuento } = req.body;
-  console.log("hola");
   try {
     const orden = await Orden.findByPk(id);
     await orden.set({
