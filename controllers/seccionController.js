@@ -65,24 +65,6 @@ export const getSecciones = async (req, res) => {
       })
     );
 
-    /*     const seccion = await Seccion.findAll({
-      where: {
-        estado: "Habilitado",
-        [Op.or]: [
-          {
-            [Op.and]: [
-              { horaInicio: { [Op.lte]: horaActual } },
-              { horaFin: { [Op.gte]: horaActual } },
-            ],
-          },
-          {
-            [Op.and]: [{ horaInicio: 0 }, { horaFin: 0 }],
-          },
-        ],
-      },
-    });
- */
-
     res.json(newSecciones);
   } catch (error) {
     res.status(500).json({ error: error.message });
