@@ -100,15 +100,46 @@ export const getCategoria = async (req, res) => {
 export const getComidaCategoria = async (req, res) => {
   const { id } = req.params;
 
+  const fechaActual = new Date();
+  const horaActual = fechaActual.getHours() * 60 + fechaActual.getMinutes;
+
   try {
     const comidas = await Comida.findAll({
-      where: { categoriaId: id },
       include: {
         model: Variante,
         include: { model: Opcion },
       },
+      where: { categoriaId: id },
     });
-    res.json(comidas);
+
+    const newComidas = await Promise.all(
+      comidas.map(async (c) => {
+        const comida = await Comida.findOne({
+          where: {
+            id: c.id,
+            estado: "Habilitado",
+            [Op.or]: [
+              {
+                [Op.and]: [
+                  { horaInicio: { [Op.lte]: horaActual } },
+                  { horaFin: { [Op.gte]: horaActual } },
+                ],
+              },
+              {
+                [Op.and]: [{ horaInicio: 0 }, { horaFin: 0 }],
+              },
+            ],
+          },
+          include: {
+            model: Variante,
+            include: { model: Opcion },
+          },
+        });
+        c.dataValues.enabled = !!comida;
+        return c;
+      })
+    );
+    res.json(newComidas);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
