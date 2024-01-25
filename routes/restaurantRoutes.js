@@ -7,6 +7,7 @@ import {
   getMesasWaiters,
   cambiarEstadoMesa,
   cambiarEstadoMesas,
+  mesaDelete,
 } from "../controllers/mesaController.js";
 
 import {
@@ -16,18 +17,22 @@ import {
   getComidaCategoria,
   cambiarEstadoCategoria,
   updateCatedoria,
+  categoriasDelete,
 } from "../controllers/categoriaController.js";
 
 import { createOpcion, getOpciones } from "../controllers/opcionController.js";
 import {
   createVariante,
   getVariantes,
+  variantesDelete,
+  variantesUpdate,
 } from "../controllers/varianteController.js";
 
 import {
   createItem,
   getItems,
   editItem,
+  itemsDelete,
 } from "../controllers/itemController.js";
 
 import {
@@ -37,6 +42,7 @@ import {
   getComida,
   cambiarEstadoComida,
   updateComida,
+  comidasDelete,
 } from "../controllers/comidaController.js";
 
 import {
@@ -63,6 +69,7 @@ import {
   updateSeccion,
   seccionMesas,
   getSeccion,
+  seccionesDetele,
 } from "../controllers/seccionController.js";
 
 import upload from "../middlewares/subirImagen.js";
@@ -94,6 +101,7 @@ router.post(
   permissions(3),
   cambiarEstadoMesas
 );
+router.post("/mesas/delete/:id", authentication, permissions(2), mesaDelete);
 
 //########################################################################################   Categorias
 router.post(
@@ -121,7 +129,19 @@ router.post(
   permissions(2),
   cambiarEstadoCategoria
 );
-router.post("/categorias/update/:id", permissions(2), updateCatedoria);
+router.post(
+  "/categorias/update/:id",
+  authentication,
+  permissions(2),
+  updateCatedoria
+);
+
+router.post(
+  "/categorias/delete/:id",
+  authentication,
+  permissions(2),
+  categoriasDelete
+);
 
 //########################################################################################   Opciones
 router.post("/opciones/create", authentication, permissions(2), createOpcion);
@@ -135,12 +155,25 @@ router.post(
   createVariante
 );
 router.get("/variantes/get", authentication, permissions(4), getVariantes);
+router.post(
+  "/variantes/update/:id",
+  authentication,
+  permissions(4),
+  variantesUpdate
+);
+
+router.post(
+  "/variantes/delete/:id",
+  authentication,
+  permissions(4),
+  variantesDelete
+);
 
 //########################################################################################   Item
 router.post("/items/create/:id", authentication, permissions(2), createItem); // agregar nuevo item a la orden
 router.get("/items/get", authentication, permissions(4), getItems);
 router.post("/items/editar/:id", authentication, permissions(2), editItem); // editar nuevo item a la orden
-
+router.post("/items/delete/:id", authentication, permissions(2), itemsDelete);
 //########################################################################################   Comida
 router.post(
   "/comidas/create", //Crear Comida Normal
@@ -165,7 +198,19 @@ router.post(
   cambiarEstadoComida
 );
 
-router.post("/comidas/update/:id", permissions(2), updateComida);
+router.post(
+  "/comidas/update/:id",
+  authentication,
+  permissions(2),
+  updateComida
+);
+
+router.post(
+  "/comidas/delete/:id",
+  authentication,
+  permissions(2),
+  comidasDelete
+);
 
 //########################################################################################   Orden
 router.post("/ordenes/create", authentication, permissions(4), createOrden); // Orden Completa
@@ -224,5 +269,12 @@ router.get(
   seccionMesas
 );
 router.get("/secciones/get/:id", authentication, permissions(2), getSeccion);
+
+router.post(
+  "/secciones/delete/:id",
+  authentication,
+  permissions(2),
+  seccionesDetele
+);
 
 export default router;

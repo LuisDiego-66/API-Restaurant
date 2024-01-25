@@ -16,6 +16,11 @@ const Item = db.define(
       type: DataTypes.DOUBLE,
       allowNull: true,
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null,
+    },
   },
   { timestamps: false }
 );

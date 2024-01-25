@@ -44,6 +44,11 @@ const Comida = db.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null,
+    },
   },
   { timestamps: false }
 );

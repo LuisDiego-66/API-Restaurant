@@ -298,3 +298,18 @@ export const updateComida = async (req, res) => {
     console.log(error);
   }
 };
+
+export const comidasDelete = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const comida = await Comida.findByPk(id);
+    if (!comida) {
+      return res.send("no existe el registro");
+    }
+    await comida.update({ deletedAt: new Date() });
+
+    res.json(comida);
+  } catch (error) {
+    console.log(error);
+  }
+};

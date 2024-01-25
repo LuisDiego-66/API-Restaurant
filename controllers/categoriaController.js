@@ -200,3 +200,18 @@ export const updateCatedoria = async (req, res) => {
     console.log(error);
   }
 };
+
+export const categoriasDelete = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const categoria = await Categoria.findByPk(id);
+    if (!categoria) {
+      return res.send("no existe el registro");
+    }
+    await categoria.update({ deletedAt: new Date() });
+
+    res.json(categoria);
+  } catch (error) {
+    console.log(error);
+  }
+};

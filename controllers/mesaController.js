@@ -1,4 +1,4 @@
-import { Op } from "sequelize";
+import { DATE, Op } from "sequelize";
 import { Mesa, Orden, Waiter } from "../models/relations.js";
 
 //Mesas
@@ -128,5 +128,20 @@ export const cambiarEstadoMesas = async (req, res) => {
     res.send("Changed Status Successfully");
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+export const mesaDelete = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const mesa = await Mesa.findByPk(id);
+    if (!mesa) {
+      return res.send("no existe el registro");
+    }
+    await mesa.update({ deletedAt: new Date() });
+
+    res.json(mesa);
+  } catch (error) {
+    console.log(error);
   }
 };

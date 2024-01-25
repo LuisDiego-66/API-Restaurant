@@ -153,3 +153,18 @@ export const seccionMesas = async (req, res) => {
     console.log(error);
   }
 };
+
+export const seccionesDetele = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const seccion = await Seccion.findByPk(id);
+    if (!seccion) {
+      return res.send("no existe el registro");
+    }
+    await seccion.update({ deletedAt: new Date() });
+
+    res.json(seccion);
+  } catch (error) {
+    console.log(error);
+  }
+};

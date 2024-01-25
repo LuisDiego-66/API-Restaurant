@@ -24,6 +24,11 @@ const Mesa = db.define(
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null,
+    },
   },
   { timestamps: false }
 );

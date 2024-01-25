@@ -49,3 +49,18 @@ export const editItem = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const itemsDelete = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const item = await Item.findByPk(id);
+    if (!item) {
+      return res.send("no existe el registro");
+    }
+    await item.update({ deletedAt: new Date() });
+
+    res.json(item);
+  } catch (error) {
+    console.log(error);
+  }
+};
